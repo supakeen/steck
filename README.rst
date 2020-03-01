@@ -26,6 +26,16 @@ Prerequisites
 =============
 * Python >= 3.6
 * click
+* requests
+
+Usage
+=====
+
+Simple use::
+
+  € steck paste *.py
+  View Paste http://localhost:8000/AK6A
+  Remove Paste http://localhost:8000/remove/DAST4HSEGG3UJDL4PAONH6RJXQ
 
 
 License
