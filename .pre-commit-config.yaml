@@ -1,0 +1,25 @@
+repos:
+-   repo: local
+    hooks:
+    - id: black
+      name: black
+      language: system
+      entry: python -m black
+      types: [python]
+    - id: pytest
+      name: pytest
+      language: system
+      pass_filenames: false
+      entry: python -m pytest -q
+      types: [python]
+    - id: flake8
+      name: flake8
+      language: system
+      entry: python -m flake8
+      types: [python]
+    - id: mypy
+      name: mypy
+      language: system
+      entry: python -m mypy
+      types: [python]
+      exclude: ^doc/conf.py

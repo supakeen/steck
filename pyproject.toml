@@ -1,0 +1,56 @@
+[tool.poetry]
+name = "steck"
+version = "0.0.0"
+description = "Client for pinnwand pastebin."
+authors = ["supakeen <cmdr@supakeen.com>"]
+license = "MIT"
+readme = "README.rst"
+keywords = ["pastebin"]
+repository = "https://github.com/supakeen/steck"
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.6,<4"
+click = "^7.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+coverage = "^4.5"
+black = { version = "*", allow-prereleases = true }
+pytest-cov = "^2.8"
+pre-commit = "^1.20"
+flake8 = "^3.7"
+mypy = "^0.740.0"
+poetry-dynamic-versioning = "^0.3.0"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+
+[tool.black]
+line-length = 80
+target_version = ["py36"]
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.eggs
+  | \.mypy_cache
+  | \.tox
+  | venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+[tool.poetry.scripts]
+steck = 'steck:main'
+
+[build-system]
+requires = ["setuptools", "wheel"]
+
