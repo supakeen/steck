@@ -27,6 +27,7 @@ Prerequisites
 * Python >= 3.6
 * click
 * requests
+* python-magic
 
 Usage
 =====
