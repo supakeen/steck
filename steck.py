@@ -1,6 +1,6 @@
 import pathlib
 
-from typing import Tuple
+from typing import Tuple, List
 
 import click
 import requests
@@ -12,6 +12,28 @@ mime_map = {
     "text/plain": "text",
     "text/x-python": "python",
 }
+
+
+def aggregate(
+    *passed_paths: str, recursive: bool = False
+) -> List[pathlib.Path]:
+    """Get all the paths passed as arguments and turn them into
+       pathlib.Paths."""
+
+    stack = []
+
+    for passed_path in passed_paths:
+        path = pathlib.Path(passed_path)
+
+        if path.is_file():
+            stack.append(path)
+
+    return stack
+
+
+def guess(path: pathlib.Path) -> str:
+    """Guess a lexer type based on a path."""
+    return mime_map.get(Magic(mime=True).from_file(str(path)), "text")
 
 
 @click.group()
@@ -31,13 +53,15 @@ def main() -> None:
     default=True,
     help="Enable or disable guessing file types.",
 )
-@click.argument("files", nargs=-1)
-def paste(confirm: bool, magic: bool, files: Tuple[str]) -> None:
+@click.argument("paths", nargs=-1)
+def paste(confirm: bool, magic: bool, paths: Tuple[str]) -> None:
     """Paste some files matching a pattern."""
 
-    if not files:
-        print("No files, did you forget to pass any?")
+    if not paths:
+        print("No paths found, did you forget to pass some?")
         return
+
+    files = aggregate(*paths)
 
     if confirm:
         print(
@@ -45,37 +69,20 @@ def paste(confirm: bool, magic: bool, files: Tuple[str]) -> None:
         )
 
         for file in files:
-            if pathlib.Path(file).is_file():
-                print(f" - {file}")
+            print(f" - {file}")
 
         if input("Continue? [y/N] ").lower() != "y":
             return None
 
-    guesser = Magic(mime=True)
-
-    collected = []
-
-    for file in files:
-        path = pathlib.Path(file)
-
-        if not path.is_file():
-            continue
-
-        collected.append(
-            (
-                path.name,
-                open(path).read(),
-                mime_map.get(guesser.from_file(file), "text")
-                if magic
-                else "text",
-            )
-        )
-
     data = {
         "expiry": "1day",
         "files": [
-            {"name": name, "content": content, "lexer": lexer}
-            for name, content, lexer in collected
+            {
+                "name": file.name,
+                "content": file.read_text(),
+                "lexer": guess(file) if magic else "text",
+            }
+            for file in files
         ],
     }
 
