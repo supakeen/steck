@@ -34,9 +34,18 @@ Usage
 
 Simple use::
 
-  € steck paste *.py
-  View Paste http://localhost:8000/AK6A
-  Remove Paste http://localhost:8000/remove/DAST4HSEGG3UJDL4PAONH6RJXQ
+  € steck paste *
+  You are about to paste the following 7 files. Do you want to continue?
+   - LICENSE
+   - mypy.ini
+   - poetry.lock
+   - pyproject.toml
+   - README.rst
+   - requirements.txt
+   - steck.py
+  Continue? [y/N] y
+  View Paste https://localhost:8000/6MZA
+  Remove Paste https://localhost:8000/remove/XFVRNNCC7L5ATXOU4RHZNBEKIQ
 
 
 License
