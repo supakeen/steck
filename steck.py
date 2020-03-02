@@ -21,23 +21,25 @@ def main() -> None:
 
 
 @main.command()
+@click.option("--confirm/--no-confirm", default=True, help="Enable or disable confirmation.")
 @click.option("--magic/--no-magic", default=True, help="Enable or disable guessing file types.")
 @click.argument("files", nargs=-1)
-def paste(magic: bool, files: Tuple[str]) -> None:
+def paste(confirm: bool, magic: bool, files: Tuple[str]) -> None:
     """Paste some files matching a pattern."""
 
     if not files:
         print("No files, did you forget to pass any?")
         return
 
-    print(f"You are about to paste the following {len(files)} files. Do you want to continue?")
+    if confirm:
+        print(f"You are about to paste the following {len(files)} files. Do you want to continue?")
 
-    for file in files:
-        if pathlib.Path(file).is_file():
-            print(f" - {file}")
+        for file in files:
+            if pathlib.Path(file).is_file():
+                print(f" - {file}")
 
-    if input("Continue? [y/N] ").lower() != "y":
-        return 0
+        if input("Continue? [y/N] ").lower() != "y":
+            return 0
 
     guesser = Magic(mime=True)
 
