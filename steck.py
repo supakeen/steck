@@ -34,7 +34,7 @@ def paste(files: Tuple[str]) -> None:
         if pathlib.Path(file).is_file():
             print(f" - {file}")
 
-    if input("Continue? [Y/n] ").lower() != "y":
+    if input("Continue? [y/N] ").lower() != "y":
         return 0
 
     guesser = magic.Magic(mime=True)
