@@ -4,7 +4,8 @@ from typing import Tuple
 
 import click
 import requests
-import magic
+
+from magic import Magic
 
 
 mime_map = {
@@ -20,8 +21,9 @@ def main() -> None:
 
 
 @main.command()
+@click.option("--magic/--no-magic", default=True, help="Enable or disable guessing file types.")
 @click.argument("files", nargs=-1)
-def paste(files: Tuple[str]) -> None:
+def paste(magic: bool, files: Tuple[str]) -> None:
     """Paste some files matching a pattern."""
 
     if not files:
@@ -37,23 +39,27 @@ def paste(files: Tuple[str]) -> None:
     if input("Continue? [y/N] ").lower() != "y":
         return 0
 
-    guesser = magic.Magic(mime=True)
+    guesser = Magic(mime=True)
 
-    collect = [
-        (
-            pathlib.Path(file).name,
-            open(file).read(),
-            mime_map.get(guesser.from_file(file), "text"),
-        )
-        for file in files
-        if pathlib.Path(file).is_file()
-    ]
+    collected = []
+
+    for file in files:
+        path = pathlib.Path(file)
+
+        if not path.is_file():
+            continue
+
+        collected.append((
+            path.name,
+            open(path).read(),
+            mime_map.get(guesser.from_file(file), "text") if magic else "text",
+        ))
 
     data = {
         "expiry": "1day",
         "files": [
             {"name": name, "content": content, "lexer": lexer}
-            for name, content, lexer in collect
+            for name, content, lexer in collected
         ],
     }
 
