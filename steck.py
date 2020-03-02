@@ -23,6 +23,11 @@ def main() -> None:
 @click.argument("files", nargs=-1)
 def paste(files: Tuple[str]) -> None:
     """Paste some files matching a pattern."""
+
+    if not files:
+        print("No files, did you forget to pass any?")
+        return
+
     guesser = magic.Magic(mime=True)
 
     collect = [
