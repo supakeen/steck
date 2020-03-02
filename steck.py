@@ -28,6 +28,15 @@ def paste(files: Tuple[str]) -> None:
         print("No files, did you forget to pass any?")
         return
 
+    print(f"You are about to paste the following {len(files)} files. Do you want to continue?")
+
+    for file in files:
+        if pathlib.Path(file).is_file():
+            print(f" - {file}")
+
+    if input("Continue? [Y/n] ").lower() != "y":
+        return 0
+
     guesser = magic.Magic(mime=True)
 
     collect = [
