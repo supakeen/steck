@@ -268,7 +268,7 @@ pyparsing = ">=2.0.2"
 six = "*"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "Utility library for gitignore style pattern matching of file paths."
 name = "pathspec"
 optional = false
@@ -545,7 +545,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "d65e41abf2e09ee9e9350406e8c4ddc82c2e4999bda7fe42c239c27d1ee0156f"
+content-hash = "eed84a7f992132c96eb2dc95f42a48702878cccbf95e57af9839950d62726fd8"
 python-versions = ">=3.6,<4"
 
 [metadata.files]
