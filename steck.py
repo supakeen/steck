@@ -21,8 +21,16 @@ def main() -> None:
 
 
 @main.command()
-@click.option("--confirm/--no-confirm", default=True, help="Enable or disable confirmation.")
-@click.option("--magic/--no-magic", default=True, help="Enable or disable guessing file types.")
+@click.option(
+    "--confirm/--no-confirm",
+    default=True,
+    help="Enable or disable confirmation.",
+)
+@click.option(
+    "--magic/--no-magic",
+    default=True,
+    help="Enable or disable guessing file types.",
+)
 @click.argument("files", nargs=-1)
 def paste(confirm: bool, magic: bool, files: Tuple[str]) -> None:
     """Paste some files matching a pattern."""
@@ -32,14 +40,16 @@ def paste(confirm: bool, magic: bool, files: Tuple[str]) -> None:
         return
 
     if confirm:
-        print(f"You are about to paste the following {len(files)} files. Do you want to continue?")
+        print(
+            f"You are about to paste the following {len(files)} files. Do you want to continue?"
+        )
 
         for file in files:
             if pathlib.Path(file).is_file():
                 print(f" - {file}")
 
         if input("Continue? [y/N] ").lower() != "y":
-            return 0
+            return None
 
     guesser = Magic(mime=True)
 
@@ -51,11 +61,15 @@ def paste(confirm: bool, magic: bool, files: Tuple[str]) -> None:
         if not path.is_file():
             continue
 
-        collected.append((
-            path.name,
-            open(path).read(),
-            mime_map.get(guesser.from_file(file), "text") if magic else "text",
-        ))
+        collected.append(
+            (
+                path.name,
+                open(path).read(),
+                mime_map.get(guesser.from_file(file), "text")
+                if magic
+                else "text",
+            )
+        )
 
     data = {
         "expiry": "1day",
