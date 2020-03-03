@@ -64,6 +64,10 @@ def paste(confirm: bool, magic: bool, paths: Tuple[str]) -> None:
 
     files = aggregate(*paths)
 
+    if not len(files):
+        print(colored("No files found in given paths?", "red"))
+        return
+
     if confirm:
         print(
             colored(
