@@ -1,5 +1,5 @@
 # Base URL to use for the pinnwand instance you want to interact with, this is
-# the pastebin that steck will use.
+# the pastebin that steck will use. Don't forget the trailing slash!
 base = "https://bpaste.net/"
 
 # The value for default confirmation. If you set this to false then you won't

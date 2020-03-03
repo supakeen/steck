@@ -114,7 +114,7 @@ def paste(confirm: bool, magic: bool, paths: Tuple[str]) -> None:
     }
 
     response = requests.post(
-        "https://bpaste.net/api/v1/paste", json=data
+        f"{configuration['base']}api/v1/paste", json=data
     ).json()
 
     print()
