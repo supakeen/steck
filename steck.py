@@ -6,6 +6,7 @@ import click
 import requests
 
 from magic import Magic
+from termcolor import colored
 
 
 mime_map = {
@@ -65,14 +66,22 @@ def paste(confirm: bool, magic: bool, paths: Tuple[str]) -> None:
 
     if confirm:
         print(
-            f"You are about to paste the following {len(files)} files. Do you want to continue?"
+            colored(
+                f"You are about to paste the following {len(files)} files. Do you want to continue?",
+                "yellow",
+            )
         )
+    else:
+        print(colored(f"Pasting the following {len(files)} files.", "yellow"))
 
-        for file in files:
-            print(f" - {file}")
+    for file in files:
+        print(f" - {file}")
+        print()
 
-        if input("Continue? [y/N] ").lower() != "y":
+    if confirm:
+        if input(colored("Continue? [y/N] ", "yellow")).lower() != "y":
             return None
+        print()
 
     data = {
         "expiry": "1day",
@@ -90,8 +99,9 @@ def paste(confirm: bool, magic: bool, paths: Tuple[str]) -> None:
         "https://bpaste.net/api/v1/paste", json=data
     ).json()
 
-    print("View Paste", response["link"])
-    print("Remove Paste", response["removal"])
+    print(colored("Completed paste.", "green"))
+    print("View link:   ", response["link"])
+    print("Removal link:", response["removal"])
 
 
 if __name__ == "__main__":

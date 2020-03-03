@@ -28,6 +28,7 @@ Prerequisites
 * click
 * requests
 * python-magic
+* termcolor
 
 Usage
 =====
