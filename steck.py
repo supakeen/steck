@@ -80,9 +80,9 @@ def paste(confirm: bool, magic: bool, paths: Tuple[str]) -> None:
 
     for file in files:
         print(f" - {file}")
-        print()
 
     if confirm:
+        print()
         if input(colored("Continue? [y/N] ", "yellow")).lower() != "y":
             return None
         print()

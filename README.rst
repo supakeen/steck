@@ -35,7 +35,7 @@ Usage
 
 Simple use::
 
-  € steck paste *
+  € steck paste *      
   You are about to paste the following 7 files. Do you want to continue?
    - LICENSE
    - mypy.ini
@@ -44,9 +44,12 @@ Simple use::
    - README.rst
    - requirements.txt
    - steck.py
+  
   Continue? [y/N] y
-  View Paste https://localhost:8000/6MZA
-  Remove Paste https://localhost:8000/remove/XFVRNNCC7L5ATXOU4RHZNBEKIQ
+  
+  Completed paste.
+  View link:    https://localhost:8000/W5
+  Removal link: https://localhost:8000/remove/TS2AFFIEHEWUBUV5HLKNAUZFEI
 
 
 License
