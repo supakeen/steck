@@ -53,6 +53,26 @@ Simple use::
   View link:    https://localhost:8000/W5
   Removal link: https://localhost:8000/remove/TS2AFFIEHEWUBUV5HLKNAUZFEI
 
+Skip the confirmation::
+
+  € steck paste --no-confirm *
+ 
+Don't try to guess at filetypes::
+
+  € steck paste --no-magic *
+ 
+
+More usecases are found in the documentation_.
+
+
+Configuration
+=============
+
+The default argument values used by ``steck`` can be configured by copying the
+``steck.toml-dist`` file to ``~/.config/steck/steck.toml``. You can turn off
+the confirmation or choose another pinnwand instance there.
+
+More about configuration can be found at the documentation_.
 
 License
 =======
