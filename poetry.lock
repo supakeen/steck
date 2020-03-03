@@ -1,5 +1,5 @@
 [[package]]
-category = "dev"
+category = "main"
 description = "A small Python module for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
 name = "appdirs"
 optional = false
@@ -461,7 +461,7 @@ python-versions = "*"
 version = "1.1.0"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "Python Library for Tom's Obvious, Minimal Language"
 name = "toml"
 optional = false
@@ -553,7 +553,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "6e1a6b65689092ab2b6d1f30923fddd9c2545fb8a444640cd7cbb8fe72dc61ce"
+content-hash = "881bd94d27828aebd9bf99600d1f328e55b04187ee22122796b84ca41eb22997"
 python-versions = ">=3.6,<4"
 
 [metadata.files]

@@ -20,6 +20,8 @@ requests = "^2.23.0"
 python-magic = "^0.4.15"
 pathspec = "^0.7.0"
 termcolor = "^1.1.0"
+appdirs = "^1.4.3"
+toml = "^0.10.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

@@ -29,6 +29,8 @@ Prerequisites
 * requests
 * python-magic
 * termcolor
+* appdirs
+* toml
 
 Usage
 =====

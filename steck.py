@@ -2,6 +2,8 @@ import pathlib
 
 from typing import Tuple, List
 
+import toml
+import appdirs
 import click
 import requests
 
@@ -13,6 +15,20 @@ mime_map = {
     "text/plain": "text",
     "text/x-python": "python",
 }
+
+configuration_path = (
+    pathlib.Path(appdirs.user_config_dir("steck")) / "steck.toml"
+)
+
+if configuration_path.exists():
+    with open(configuration_path) as f:
+        configuration = toml.load(f)
+else:
+    configuration = {
+        "base": "https://bpaste.net/",
+        "confirm": True,
+        "magic": True,
+    }
 
 
 def aggregate(
@@ -46,18 +62,17 @@ def main() -> None:
 @main.command()
 @click.option(
     "--confirm/--no-confirm",
-    default=True,
+    default=configuration["confirm"],
     help="Enable or disable confirmation.",
 )
 @click.option(
     "--magic/--no-magic",
-    default=True,
+    default=configuration["magic"],
     help="Enable or disable guessing file types.",
 )
 @click.argument("paths", nargs=-1)
 def paste(confirm: bool, magic: bool, paths: Tuple[str]) -> None:
     """Paste some files matching a pattern."""
-
     if not paths:
         print(colored("No paths found, did you forget to pass some?", "red"))
         return
@@ -85,7 +100,6 @@ def paste(confirm: bool, magic: bool, paths: Tuple[str]) -> None:
         print()
         if input(colored("Continue? [y/N] ", "yellow")).lower() != "y":
             return None
-        print()
 
     data = {
         "expiry": "1day",
@@ -103,6 +117,7 @@ def paste(confirm: bool, magic: bool, paths: Tuple[str]) -> None:
         "https://bpaste.net/api/v1/paste", json=data
     ).json()
 
+    print()
     print(colored("Completed paste.", "green"))
     print("View link:   ", response["link"])
     print("Removal link:", response["removal"])
