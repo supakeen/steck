@@ -59,7 +59,7 @@ def paste(confirm: bool, magic: bool, paths: Tuple[str]) -> None:
     """Paste some files matching a pattern."""
 
     if not paths:
-        print("No paths found, did you forget to pass some?")
+        print(colored("No paths found, did you forget to pass some?", "red"))
         return
 
     files = aggregate(*paths)
