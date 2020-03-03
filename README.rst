@@ -20,7 +20,8 @@ steck
 #####
 
 ``steck`` is a Python application to interface with the pinnwand_ pastebin
-software.
+software. By default ``steck`` pastes to bpaste_ but you can override the
+instance used.
 
 Prerequisites
 =============
@@ -79,6 +80,7 @@ License
 ``steck`` is distributed under the MIT license. See `LICENSE`
 for details.
 
+.. _bpaste: https://bpaste.net/
 .. _project page: https://github.com/supakeen/steck
 .. _documentation: https://steck.readthedocs.io/en/latest/
 .. _pinnwand: https://supakeen.com/project/pinnwand
