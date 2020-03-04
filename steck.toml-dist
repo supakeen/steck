@@ -11,3 +11,7 @@ confirm = true
 # bindings. If you wish to turn off this behaviour then this is the place to
 # do so.
 magic = true
+
+# Steck will call git check-ignore on the files passed to it, if you don't
+# want to do this you can turn it off.
+ignore = true

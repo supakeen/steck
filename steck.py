@@ -1,4 +1,5 @@
 import pathlib
+import subprocess
 
 from typing import Tuple, List
 
@@ -28,7 +29,21 @@ else:
         "base": "https://bpaste.net/",
         "confirm": True,
         "magic": True,
+        "ignore": True,
     }
+
+
+def ignored(*passed_paths: str,) -> List[str]:
+    try:
+        process = subprocess.run(  # type: ignore
+            ["git", "check-ignore"] + list(passed_paths),
+            capture_output=True,
+            encoding="utf8",
+        )
+    except subprocess.CalledProcessError:
+        return list(passed_paths)
+    else:
+        return list(set(passed_paths) - set(process.stdout.splitlines()))
 
 
 def aggregate(
@@ -70,10 +85,22 @@ def main() -> None:
     default=configuration["magic"],
     help="Enable or disable guessing file types.",
 )
+@click.option(
+    "--ignore/--no-ignore",
+    default=configuration["ignore"],
+    help="Enable or disable .gitignore checking.",
+)
 @click.argument("paths", nargs=-1)
-def paste(confirm: bool, magic: bool, paths: Tuple[str]) -> None:
+def paste(confirm: bool, magic: bool, ignore: bool, paths: Tuple[str]) -> None:
     """Paste some files matching a pattern."""
     if not paths:
+        print(colored("No paths found, did you forget to pass some?", "red"))
+        return
+
+    if ignore:
+        filtered = ignored(*paths)
+
+    if not filtered:
         print(colored("No paths found, did you forget to pass some?", "red"))
         return
 
