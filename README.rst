@@ -1,3 +1,10 @@
+.. image:: https://steck.readthedocs.io/en/latest/_static/logo-readme.png
+    :width: 950px
+    :align: center
+
+steck
+#####
+
 .. image:: https://travis-ci.org/supakeen/steck.svg?branch=master
     :target: https://travis-ci.org/supakeen/steck
 
@@ -16,8 +23,8 @@
 .. image:: https://codecov.io/gh/supakeen/steck/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/supakeen/steck
 
-steck
-#####
+About
+=====
 
 ``steck`` is a Python application to interface with the pinnwand_ pastebin
 software. By default ``steck`` pastes to bpaste_ but you can override the
