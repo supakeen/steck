@@ -69,6 +69,9 @@ Don't try to guess at filetypes::
 
   € steck paste --no-magic *
  
+Skip checking files against ``.gitignore``::
+
+  € steck paste --no-ignore *
 
 More usecases are found in the documentation_.
 
