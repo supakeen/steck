@@ -21,16 +21,16 @@ configuration_path = (
     pathlib.Path(appdirs.user_config_dir("steck")) / "steck.toml"
 )
 
+configuration = {
+    "base": "https://bpaste.net/",
+    "confirm": True,
+    "magic": True,
+    "ignore": True,
+}
+
 if configuration_path.exists():
     with open(configuration_path) as f:
-        configuration = toml.load(f)
-else:
-    configuration = {
-        "base": "https://bpaste.net/",
-        "confirm": True,
-        "magic": True,
-        "ignore": True,
-    }
+        configuration.update(toml.load(f))
 
 
 def ignored(*passed_paths: str,) -> List[str]:
