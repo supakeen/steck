@@ -40,7 +40,7 @@ def ignored(*passed_paths: str,) -> List[str]:
             capture_output=True,
             encoding="utf8",
         )
-    except subprocess.CalledProcessError:
+    except (subprocess.CalledProcessError, FileNotFoundError):
         return list(passed_paths)
     else:
         return list(set(passed_paths) - set(process.stdout.splitlines()))
