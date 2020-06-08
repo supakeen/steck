@@ -1,7 +1,37 @@
 name: pypi-test-publish
-uses: pypa/gh-action-pypi-publish@v1.2.2
 on: push
-with:
-  user: __token__
-  password: ${{ secrets.pypi_password }}
-  repository_url: https://test.pypi.org/legacy/
+
+jobs:
+  build-and-publish:
+    name: Build a wheel and publish it to PyPI test.
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      max-parallel: 1
+      matrix:
+        python-version:
+        - 3.6
+        - 3.7
+        - 3.8
+        - 3.9
+        os:
+        - ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install tox
+      run: |
+        python -m pip install --upgrade tox
+    - name: Initialize tox env
+      run: |
+        python -m tox -e build-dists --parallel auto --notest
+    - name: Build dists
+      run: |
+        python -m tox -e build-dists --parallel 0
+    - name: Publish to PyPI test.
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        password: ${{ secrets.pypi_test_password }}
+        repository_url: https://test.pypi.org/legacy/
