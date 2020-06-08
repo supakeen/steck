@@ -1,6 +1,6 @@
-- name: pypi-test-publish
-  uses: pypa/gh-action-pypi-publish@v1.2.2
-  with:
-    user: __token__
-    password: ${{ secrets.pypi_password }}
-    repository_url: https://test.pypi.org/legacy/
+name: pypi-test-publish
+uses: pypa/gh-action-pypi-publish@v1.2.2
+with:
+  user: __token__
+  password: ${{ secrets.pypi_password }}
+  repository_url: https://test.pypi.org/legacy/
