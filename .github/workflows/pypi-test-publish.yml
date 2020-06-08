@@ -3,7 +3,7 @@ on: push
 
 jobs:
   build-and-publish:
-    name: Build a wheel and publish it to PyPI test.
+    name: Build a wheel and publish it to PyPI test
     runs-on: ${{ matrix.platform }}
     strategy:
       max-parallel: 1
@@ -30,7 +30,7 @@ jobs:
     - name: Build dists
       run: |
         python -m tox -e build-dists --parallel 0
-    - name: Publish to PyPI test.
+    - name: Publish to PyPI test
       uses: pypa/gh-action-pypi-publish@master
       with:
         password: ${{ secrets.pypi_test_password }}
