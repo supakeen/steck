@@ -1,5 +1,6 @@
 import pathlib
 import subprocess
+import sys
 
 from typing import Tuple, List
 
@@ -97,48 +98,73 @@ def paste(confirm: bool, magic: bool, ignore: bool, paths: Tuple[str]) -> None:
         print(colored("No paths found, did you forget to pass some?", "red"))
         return
 
-    if ignore:
-        filtered = ignored(*paths)
+    if paths == ("-",):
+        print(colored("Using stdin for input", "yellow"))
 
-    if not filtered:
-        print(colored("No paths found, did you forget to pass some?", "red"))
-        return
+        data = {
+            "expiry": "1day",
+            "files": [
+                {"name": "stdin", "content": sys.stdin.read(), "lexer": "text"}
+            ],
+        }
 
-    files = aggregate(*paths)
-
-    if not len(files):
-        print(colored("No files found in given paths?", "red"))
-        return
-
-    if confirm:
-        print(
-            colored(
-                f"You are about to paste the following {len(files)} files. Do you want to continue?",
-                "yellow",
+        if confirm:
+            print(
+                colored(
+                    "You are about to paste stdin. Do you want to continue?",
+                    "yellow",
+                )
             )
-        )
+        else:
+            print(colored("Pasting stdin.", "yellow"))
+
     else:
-        print(colored(f"Pasting the following {len(files)} files.", "yellow"))
+        if ignore:
+            filtered = ignored(*paths)
 
-    for file in files:
-        print(f" - {file}")
+        if not filtered:
+            print(
+                colored("No paths found, did you forget to pass some?", "red")
+            )
+            return
 
-    if confirm:
-        print()
-        if input(colored("Continue? [y/N] ", "yellow")).lower() != "y":
-            return None
+        files = aggregate(*paths)
 
-    data = {
-        "expiry": "1day",
-        "files": [
-            {
-                "name": file.name,
-                "content": file.read_text(),
-                "lexer": guess(file) if magic else "text",
-            }
-            for file in files
-        ],
-    }
+        if not len(files):
+            print(colored("No files found in given paths?", "red"))
+            return
+
+        if confirm:
+            print(
+                colored(
+                    f"You are about to paste the following {len(files)} files. Do you want to continue?",
+                    "yellow",
+                )
+            )
+        else:
+            print(
+                colored(f"Pasting the following {len(files)} files.", "yellow")
+            )
+
+        for file in files:
+            print(f" - {file}")
+
+        if confirm:
+            print()
+            if input(colored("Continue? [y/N] ", "yellow")).lower() != "y":
+                return None
+
+        data = {
+            "expiry": "1day",
+            "files": [
+                {
+                    "name": file.name,
+                    "content": file.read_text(),
+                    "lexer": guess(file) if magic else "text",
+                }
+                for file in files
+            ],
+        }
 
     response = requests.post(
         f"{configuration['base']}api/v1/paste", json=data
