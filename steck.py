@@ -38,7 +38,8 @@ def ignored(*passed_paths: str,) -> List[str]:
     try:
         process = subprocess.run(  # type: ignore
             ["git", "check-ignore"] + list(passed_paths),
-            capture_output=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
             encoding="utf8",
         )
     except (subprocess.CalledProcessError, FileNotFoundError):
