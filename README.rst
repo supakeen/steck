@@ -61,6 +61,10 @@ Simple use::
   View link:    https://localhost:8000/W5
   Removal link: https://localhost:8000/remove/TS2AFFIEHEWUBUV5HLKNAUZFEI
 
+You can also paste from stdin (a single file)::
+
+  € steck paste --no-confirm -
+
 Skip the confirmation::
 
   € steck paste --no-confirm *
