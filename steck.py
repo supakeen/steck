@@ -97,21 +97,25 @@ def main() -> None:
 @click.option(
     "--confirm/--no-confirm",
     default=configuration["confirm"],
+    show_default=True,
     help="Enable or disable confirmation.",
 )
 @click.option(
     "--magic/--no-magic",
     default=configuration["magic"],
+    show_default=True,
     help="Enable or disable guessing file types.",
 )
 @click.option(
     "--ignore/--no-ignore",
     default=configuration["ignore"],
+    show_default=True,
     help="Enable or disable .gitignore checking.",
 )
 @click.option(
     "--recursive/--not-recursive",
     default=configuration["recursive"],
+    show_default=True,
     help="Recursively upload contents of a directory.",
 )
 @click.argument("paths", nargs=-1)
