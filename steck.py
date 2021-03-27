@@ -123,11 +123,13 @@ def paste(confirm: bool, magic: bool, ignore: bool, paths: Tuple[str]) -> None:
         if ignore:
             filtered = ignored(*paths)
 
-        if not filtered:
-            print(
-                colored("No paths found, did you forget to pass some?", "red")
-            )
-            return
+            if not filtered:
+                print(
+                    colored(
+                        "No paths found, did you forget to pass some?", "red"
+                    )
+                )
+                return
 
         files = aggregate(*paths)
 
