@@ -1,7 +1,6 @@
 import pathlib
 import subprocess
 import sys
-from collections.abc import Iterable
 from typing import List, Tuple
 
 import appdirs
@@ -25,7 +24,6 @@ configuration = {
     "confirm": True,
     "magic": True,
     "ignore": True,
-    "recursive": False,
 }
 
 if configuration_path.exists():
@@ -37,7 +35,7 @@ def ignored(
     *passed_paths: str,
 ) -> List[str]:
     try:
-        process = subprocess.run(  # type: ignore
+        process = subprocess.run(
             ["git", "check-ignore"] + list(passed_paths),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -49,22 +47,8 @@ def ignored(
         return list(set(passed_paths) - set(process.stdout.splitlines()))
 
 
-def should_flatten(x):
-    """Key function to determine when to stop flattening."""
-    return isinstance(x, Iterable) and not isinstance(x, (str, bytes))
-
-
-def flatten(x, should_flatten=should_flatten):
-    """Flatten an arbitrarily deep nested Iterable without nuking strings in the process."""
-    for y in x:
-        if should_flatten(y):
-            yield from flatten(y, should_flatten=should_flatten)
-        else:
-            yield y
-
-
 def aggregate(
-    *passed_paths: str, recursive: bool = False
+    *passed_paths: str,
 ) -> List[pathlib.Path]:
     """Get all the paths passed as arguments and turn them into
     pathlib.Paths."""
@@ -76,10 +60,8 @@ def aggregate(
 
         if path.is_file():
             stack.append(path)
-        if recursive and path.is_dir():
-            stack.append(aggregate(*path.iterdir(), recursive=recursive))
 
-    return list(flatten(stack))
+    return stack
 
 
 def guess(path: pathlib.Path) -> str:
@@ -112,16 +94,8 @@ def main() -> None:
     show_default=True,
     help="Enable or disable .gitignore checking.",
 )
-@click.option(
-    "--recursive/--not-recursive",
-    default=configuration["recursive"],
-    show_default=True,
-    help="Recursively upload contents of a directory.",
-)
 @click.argument("paths", nargs=-1)
-def paste(
-    confirm: bool, magic: bool, ignore: bool, recursive: bool, paths: Tuple[str]
-) -> None:
+def paste(confirm: bool, magic: bool, ignore: bool, paths: Tuple[str]) -> None:
     """Paste some files matching a pattern."""
     if not paths:
         print(colored("No paths found, did you forget to pass some?", "red"))
@@ -149,17 +123,9 @@ def paste(
 
     else:
         if ignore:
-            filtered = ignored(*paths)
+            paths = ignored(*paths)  # type: ignore
 
-            if not filtered:
-                print(
-                    colored(
-                        "No paths found, did you forget to pass some?", "red"
-                    )
-                )
-                return
-
-        files = aggregate(*paths, recursive=recursive)
+        files = aggregate(*paths)
 
         if not len(files):
             print(colored("No files found in given paths?", "red"))

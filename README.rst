@@ -79,7 +79,7 @@ Skip checking files against ``.gitignore``::
 
 Descend recursively::
 
-  € steck paste --recursive *
+  € steck paste **/*
 
 More usecases are found in the documentation_.
 
