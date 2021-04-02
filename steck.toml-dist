@@ -15,3 +15,6 @@ magic = true
 # Steck will call git check-ignore on the files passed to it, if you don't
 # want to do this you can turn it off.
 ignore = true
+
+# Steck will recursively upload files in the directory path.  Useful for uploading entire projects.
+recursive = false
