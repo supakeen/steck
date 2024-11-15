@@ -20,7 +20,7 @@ configuration_path = (
 )
 
 configuration = {
-    "base": "https://bpaste.net/",
+    "base": "https://bpa.st/",
     "confirm": True,
     "magic": True,
     "ignore": True,
